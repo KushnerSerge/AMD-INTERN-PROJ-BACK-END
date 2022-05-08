@@ -29,6 +29,14 @@ public class MappingProfile : Profile
 		CreateMap<MealForCreationDto, Meal>();
 		CreateMap<IngredientForCreationDto, Ingredient>();
 
+		CreateMap<MealForUpdateDto, Meal>();
+
+
+		CreateMap<Workout, WorkoutDto>();
+		CreateMap<WorkoutForCreationDto, Workout>();
+		CreateMap<WorkoutForUpdateDto, Workout>().ReverseMap();
+		CreateMap<StrengthForCreationDto, Strength>();
+		CreateMap<EnduranceForCreationDto, Endurance>();
 
 	}
 }

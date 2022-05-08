@@ -27,6 +27,11 @@ namespace Repository
        await FindByCondition(e => e.UserId.Equals(userId) && e.MealId.Equals(id), trackChanges)
        .SingleOrDefaultAsync();
 
+        public async Task<Meal> GetMealAndIngredientsAsync(string userId, Guid id, bool trackChanges) =>
+      await FindByCondition(e => e.UserId.Equals(userId) && e.MealId.Equals(id), trackChanges).Include(ing => ing.Ingredients)
+      .SingleOrDefaultAsync();
+
+
         public void CreateMealForUser(string userId, Meal meal)
         {
 

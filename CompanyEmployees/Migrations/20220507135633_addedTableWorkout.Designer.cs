@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,10 @@ using Repository;
 namespace CompanyEmployees.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20220507135633_addedTableWorkout")]
+    partial class addedTableWorkout
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,33 +121,6 @@ namespace CompanyEmployees.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Models.Endurance", b =>
-                {
-                    b.Property<Guid?>("EnduranceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("EnduranceId");
-
-                    b.Property<int?>("Distance")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Duration")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("WorkoutId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("EnduranceId");
-
-                    b.HasIndex("WorkoutId")
-                        .IsUnique()
-                        .HasFilter("[WorkoutId] IS NOT NULL");
-
-                    b.ToTable("Endurances");
-                });
-
             modelBuilder.Entity("Entities.Models.Ingredient", b =>
                 {
                     b.Property<Guid>("Id")
@@ -188,37 +163,6 @@ namespace CompanyEmployees.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Meals");
-                });
-
-            modelBuilder.Entity("Entities.Models.Strength", b =>
-                {
-                    b.Property<Guid?>("StrengthId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("StrengthId");
-
-                    b.Property<Guid?>("WorkoutId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("reps")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("sets")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("weight")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.HasKey("StrengthId");
-
-                    b.HasIndex("WorkoutId")
-                        .IsUnique()
-                        .HasFilter("[WorkoutId] IS NOT NULL");
-
-                    b.ToTable("Strengths");
                 });
 
             modelBuilder.Entity("Entities.Models.User", b =>
@@ -347,15 +291,15 @@ namespace CompanyEmployees.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6e6f1540-1fbd-439c-9ec2-01bec469cce3",
-                            ConcurrencyStamp = "df1b755d-b52e-490b-aaae-d83efcc231f2",
+                            Id = "daf36c5e-a5f9-4f7b-8504-96e09966e49f",
+                            ConcurrencyStamp = "ee94389f-c804-40b3-bef7-5008b5fbd69e",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "1dd68adc-45a4-4043-9260-5077552ed6c4",
-                            ConcurrencyStamp = "db5b0513-2738-41cd-8e7f-5e96ce3bd8a6",
+                            Id = "abca5cc6-d3a7-494f-b124-15c3a921dd07",
+                            ConcurrencyStamp = "38abf8c2-1263-4d8c-a2cd-556e084918ed",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -478,16 +422,6 @@ namespace CompanyEmployees.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("Entities.Models.Endurance", b =>
-                {
-                    b.HasOne("Entities.Models.Workout", "Workout")
-                        .WithOne("Endurance")
-                        .HasForeignKey("Entities.Models.Endurance", "WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Workout");
-                });
-
             modelBuilder.Entity("Entities.Models.Ingredient", b =>
                 {
                     b.HasOne("Entities.Models.Meal", "Meal")
@@ -506,16 +440,6 @@ namespace CompanyEmployees.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Entities.Models.Strength", b =>
-                {
-                    b.HasOne("Entities.Models.Workout", "Workout")
-                        .WithOne("Strength")
-                        .HasForeignKey("Entities.Models.Strength", "WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Workout");
                 });
 
             modelBuilder.Entity("Entities.Models.Workout", b =>
@@ -593,13 +517,6 @@ namespace CompanyEmployees.Migrations
                     b.Navigation("Meals");
 
                     b.Navigation("Workouts");
-                });
-
-            modelBuilder.Entity("Entities.Models.Workout", b =>
-                {
-                    b.Navigation("Endurance");
-
-                    b.Navigation("Strength");
                 });
 #pragma warning restore 612, 618
         }

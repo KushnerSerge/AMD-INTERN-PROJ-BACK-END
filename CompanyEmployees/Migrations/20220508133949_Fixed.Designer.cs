@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,10 @@ using Repository;
 namespace CompanyEmployees.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20220508133949_Fixed")]
+    partial class Fixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,7 +124,6 @@ namespace CompanyEmployees.Migrations
             modelBuilder.Entity("Entities.Models.Endurance", b =>
                 {
                     b.Property<Guid?>("EnduranceId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("EnduranceId");
 
@@ -139,11 +140,7 @@ namespace CompanyEmployees.Migrations
 
                     b.HasKey("EnduranceId");
 
-                    b.HasIndex("WorkoutId")
-                        .IsUnique()
-                        .HasFilter("[WorkoutId] IS NOT NULL");
-
-                    b.ToTable("Endurances");
+                    b.ToTable("Endurance");
                 });
 
             modelBuilder.Entity("Entities.Models.Ingredient", b =>
@@ -218,7 +215,7 @@ namespace CompanyEmployees.Migrations
                         .IsUnique()
                         .HasFilter("[WorkoutId] IS NOT NULL");
 
-                    b.ToTable("Strengths");
+                    b.ToTable("Strength");
                 });
 
             modelBuilder.Entity("Entities.Models.User", b =>
@@ -347,15 +344,15 @@ namespace CompanyEmployees.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6e6f1540-1fbd-439c-9ec2-01bec469cce3",
-                            ConcurrencyStamp = "df1b755d-b52e-490b-aaae-d83efcc231f2",
+                            Id = "5ca9b72e-93d2-41d5-9812-2cc6f818b33c",
+                            ConcurrencyStamp = "4cbb79c0-497a-49d5-b740-f276154b4597",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "1dd68adc-45a4-4043-9260-5077552ed6c4",
-                            ConcurrencyStamp = "db5b0513-2738-41cd-8e7f-5e96ce3bd8a6",
+                            Id = "2b630d8e-8113-43dd-abea-b280e0833612",
+                            ConcurrencyStamp = "f93d78cb-81b0-4e3b-be8e-8f05685058b9",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -482,8 +479,9 @@ namespace CompanyEmployees.Migrations
                 {
                     b.HasOne("Entities.Models.Workout", "Workout")
                         .WithOne("Endurance")
-                        .HasForeignKey("Entities.Models.Endurance", "WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Entities.Models.Endurance", "EnduranceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Workout");
                 });

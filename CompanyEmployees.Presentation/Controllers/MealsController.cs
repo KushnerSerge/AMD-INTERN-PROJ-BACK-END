@@ -36,6 +36,16 @@ namespace CompanyEmployees.Presentation.Controllers
         {
             _user = await _userManager.FindByNameAsync(userName);
             userId = _user.Id;
+            var meal = await _service.MealService.GetMealAndIngredientsAsync(userId, id, trackChanges: false);
+            return Ok(meal);
+        }
+
+        // find why is not founded
+        [HttpGet("element/{id:guid}")]
+        public async Task<IActionResult> GetMealAndIngredientsForUser(string userName, Guid id)
+        {
+            _user = await _userManager.FindByNameAsync(userName);
+            userId = _user.Id;
             var meal = await _service.MealService.GetMealAsync(userId, id, trackChanges: false);
             return Ok(meal);
         }
@@ -59,6 +69,24 @@ namespace CompanyEmployees.Presentation.Controllers
             //  return Ok();
 
         }
+
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateMeal(string username,Guid id ,[FromBody] MealForUpdateDto meal)
+        {
+            _user = await _userManager.FindByNameAsync(username);
+            // Console.WriteLine("userul este" + _user.Id);
+            userId = _user.Id;
+            if (meal is null)
+                return BadRequest("MealForUpdateDto object is null");
+
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
+            await _service.MealService.UpdateMealForUserAsync(userId,id, meal, trackChanges: true);
+
+            return NoContent();
+        }
+
 
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteMealForUser(string username, Guid id)

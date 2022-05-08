@@ -6,5 +6,6 @@ public interface IRepositoryManager
 	IEmployeeRepository Employee { get; }
 	IMealRepository Meal { get; }
 	IIngredientRepository Ingredient { get; }
+	IWorkoutRepository Workout { get; }	
 	Task SaveAsync();
 }

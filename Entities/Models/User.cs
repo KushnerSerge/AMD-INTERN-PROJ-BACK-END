@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-	public class User : IdentityUser
-	{
-		public string? FirstName { get; set; }
-		public string? LastName { get; set; }
-		public ICollection<Meal>? Meals { get; set; }
-	}
+    public class User : IdentityUser
+    {
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public ICollection<Meal>? Meals { get; set; }
+        public ICollection<Workout>? Workouts { get; set; }
+    }
 
 }

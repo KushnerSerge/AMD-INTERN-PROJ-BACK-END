@@ -13,6 +13,7 @@ public sealed class ServiceManager : IServiceManager
 	private readonly Lazy<ICompanyService> _companyService;
 	private readonly Lazy<IEmployeeService> _employeeService;
 	private readonly Lazy<IMealService> _mealService;
+	private readonly Lazy<IWorkoutService> _workoutService;
 	private readonly Lazy<IIngredientService> _ingredientService;
 	private readonly Lazy<IAuthenticationService> _authenticationService;
 
@@ -31,6 +32,10 @@ public sealed class ServiceManager : IServiceManager
 			new MealService(repositoryManager, logger, mapper));
 		_ingredientService = new Lazy<IIngredientService>(() =>
 			new IngredientService(repositoryManager, logger, mapper));
+		_workoutService = new Lazy<IWorkoutService>(() =>
+			new WorkoutService(repositoryManager, logger, mapper));
+
+
 
 
 		_authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration));
@@ -40,5 +45,6 @@ public sealed class ServiceManager : IServiceManager
 	public IEmployeeService EmployeeService => _employeeService.Value;
 	public IMealService MealService => _mealService.Value;
 	public IIngredientService IngredientService => _ingredientService.Value;
+	public IWorkoutService WorkoutService => _workoutService.Value;
 	public IAuthenticationService AuthenticationService => _authenticationService.Value;
 }

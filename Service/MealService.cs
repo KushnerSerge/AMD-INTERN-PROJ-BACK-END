@@ -41,6 +41,16 @@ namespace Service
             return meal;
         }
 
+        public async Task<Meal> GetMealAndIngredientsAsync(string userId, Guid id, bool trackChanges)
+        {
+            var mealDb = await _repository.Meal.GetMealAndIngredientsAsync(userId, id, trackChanges);
+            if (mealDb is null)
+                throw new MealNotFoundException(id);
+
+            // var meal = _mapper.Map<MealDto>(mealDb);
+            return mealDb;
+        }
+
 
 
         public async Task<MealDto> CreateMealForUserAsync(string userId, MealForCreationDto mealForCreation, bool trackChanges)
@@ -63,6 +73,17 @@ namespace Service
             await _repository.SaveAsync();
         }
 
+  
+
+        public async Task UpdateMealForUserAsync(string userId, Guid id, MealForUpdateDto mealForUpdate, bool trackChanges)
+        {
+            var meal = await GetMealAndIngredientsAsync(userId,id, trackChanges);
+
+            _mapper.Map(mealForUpdate, meal);
+            await _repository.SaveAsync();
+        }
+
+    
 
     }
 }

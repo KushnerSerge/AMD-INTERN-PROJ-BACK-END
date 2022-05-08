@@ -15,6 +15,14 @@ public class RepositoryContext : IdentityDbContext<User>
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);
+
+		modelBuilder.Entity<User>(e =>
+		{
+			e.HasMany(p => p.Workouts)
+			.WithOne(p => p.User)
+			.HasForeignKey(p => p.UserId);  // inherited from IdentityUserLogin
+		});
+
 		modelBuilder.Entity<User>(e =>
 		{
 			e.HasMany(p => p.Meals)
@@ -28,6 +36,21 @@ public class RepositoryContext : IdentityDbContext<User>
 			.HasForeignKey(p => p.MealId)
 			.OnDelete(DeleteBehavior.Cascade);// inherited from IdentityUserLogin
 		});
+		modelBuilder.Entity<Workout>(e =>
+		{
+			e.HasOne(p => p.Strength)
+			.WithOne(p => p.Workout)
+			.HasForeignKey<Strength>(p => p.WorkoutId)
+			.OnDelete(DeleteBehavior.Cascade);// inherited from IdentityUserLogin
+		});
+		modelBuilder.Entity<Workout>(e =>
+		{
+			e.HasOne(p => p.Endurance)
+			.WithOne(p => p.Workout)
+			.HasForeignKey<Endurance>(p => p.WorkoutId)
+			.OnDelete(DeleteBehavior.Cascade);// inherited from IdentityUserLogin
+		});
+
 
 
 		modelBuilder.ApplyConfiguration(new CompanyConfiguration());
@@ -40,4 +63,9 @@ public class RepositoryContext : IdentityDbContext<User>
 
 	public DbSet<Meal>? Meals { get; set; }
 	public DbSet<Ingredient>? Ingredients { get; set; }
+
+	public DbSet<Workout>? Workouts { get; set; }
+	public DbSet<Strength>? Strengths { get; set; }
+	public DbSet<Endurance>? Endurances { get; set; }
+
 }
